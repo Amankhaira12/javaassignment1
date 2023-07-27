@@ -1,390 +1,146 @@
 Part 1
-  ```java
-public class Book {
-private String title;
-private String author;
-private int publicationYear;
-private Book next;
+```java
+import java.util.Stack;
 
-public Book(String title, String author, int publicationYear) {
-this.title = title;
-this.author = author;
-this.publicationYear = publicationYear;
+public class BookStack {
+private Stack> bookStack;
+
+public BookStack() {
+bookStack = new Stack<>();
+bookStack.push("Book 1");
+bookStack.push("Book 2");
+bookStack.push("Book 3");
+bookStack.push("Book 4");
+bookStack.push("Book 5");
+bookStack.push("Book 6");
+bookStack.push("Book 7");
+bookStack.push("Book 8");
+bookStack.push("Book 9");
+bookStack.push("Book 10");
 }
 
-public void setNext(Book next) {
-this.next = next;
-}
-
-public Book getNext() {
-return next;
-}
-
-public String toString() {
-return title + " by " + author + " (" + publicationYear + ")";
-}
-}
-
-public class BookLinkedList {
-private Book head;
-private Book tail;
-
-public void addFirst(Book book) {
-if (head == null) {
-head = book;
-tail = book;
-} else {
-book.setNext(head);
-head = book;
+public void reportBookTitles() {
+System.out.println("Books in the stack:");
+for (String bookTitle : bookStack) {
+System.out.println(bookTitle);
 }
 }
 
-public void addLast(Book book) {
-if (head == null) {
-head = book;
-tail = book;
-} else {
-tail.setNext(book);
-tail = book;
-}
-}
-
-public void removeFirst() {
-if (head == null) {
-return;
-}
-
-if (head == tail) {
-head = null;
-tail = null;
-} else {
-head = head.getNext();
-}
-}
-
-public void removeLast() {
-if (head == null) {
-return;
-}
-
-if (head == tail) {
-head = null;
-tail = null;
-} else {
-Book current = head;
-while (current.getNext() != tail) {
-current = current.getNext();
-}
-current.setNext(null);
-tail = current;
-}
-}
-
-public void printReverse() {
-printReverseRecursive(head);
-}
-
-private void printReverseRecursive(Book current) {
-if (current == null) {
-return;
-}
-printReverseRecursive(current.getNext());
-System.out.println(current.toString());
+public static void main(String[] args) {
+BookStack stack = new BookStack();
+stack.reportBookTitles();
 }
 }
 ```
 Part 2
+
 ```java
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.List;
 
-class WebPage {
-private String url;
-private long timestamp;
+class Athlete {
+private String name;
+private int age;
+private String country;
 
-public WebPage(String url, long timestamp) {
-this.url = url;
-this.timestamp = timestamp;
+public Athlete(String name, int age, String country) {
+this.name = name;
+this.age = age;
+this.country = country;
 }
 
-public String getUrl() {
-return url;
+public String getName() {
+return name;
 }
 
-public long getTimestamp() {
-return timestamp;
+public int getAge() {
+return age;
+}
+
+public String getCountry() {
+return country;
 }
 }
 
-public class WebPageStack {
-private Stack<WebPage> stack;
-
-public WebPageStack() {
-stack = new Stack<>();
-}
-
-public void addWebPage(WebPage webPage) {
-stack.push(webPage);
-}
-
-public WebPage removeWebPage() {
-return stack.pop();
-}
-
-public WebPage peekWebPage() {
-return stack.peek();
-}
-
-public boolean isEmpty() {
-return stack.isEmpty();
-}
-
+public class Main {
 public static void main(String[] args) {
-WebPageStack webPageStack = new WebPageStack();
+Listthlete> athletes = new ArrayList<>();
 
-// Add web pages
-webPageStack.addWebPage(new WebPage("https://www.google.com", System.currentTimeMillis()));
-webPageStack.addWebPage(new WebPage("https://www.facebook.com", System.currentTimeMillis()));
-webPageStack.addWebPage(new WebPage("https://www.amazon.com", System.currentTimeMillis()));
+athletes.add(new Athlete("John Doe", 25, "USA"));
+athletes.add(new Athlete("Alice Smith", 30, "UK"));
+athletes.add(new Athlete("Bob Johnson", 28, "Canada"));
+athletes.add(new Athlete("Emily Brown", 32, "Australia"));
+athletes.add(new Athlete("Michael Davis", 29, "USA"));
+athletes.add(new Athlete("Sophia Wilson", 27, "UK"));
+athletes.add(new Athlete("David Anderson", 31, "Canada"));
+athletes.add(new Athlete("Olivia Taylor", 26, "Australia"));
+athletes.add(new Athlete("James Thomas", 33, "USA"));
+athletes.add(new Athlete("Emma Clark", 24, "UK"));
 
-// Remove the most recent web page
-WebPage removedWebPage = webPageStack.removeWebPage();
-System.out.println("Removed Web Page: " + removedWebPage.getUrl());
-
-// Print the most recent web page without removing it
-WebPage recentWebPage = webPageStack.peekWebPage();
-System.out.println("Recent Web Page: " + recentWebPage.getUrl());
-
-// Check if the stack is empty
-System.out.println("Is stack empty? " + webPageStack.isEmpty());
+for (Athlete athlete : athletes) {
+System.out.println("Name: " + athlete.getName());
+System.out.println("Age: " + athlete.getAge());
+System.out.println("Country: " + athlete.getCountry());
+System.out.println();
+}
 }
 }
 ```
 Part 3
 ```java
 import java.util.LinkedList;
-import java.util.Queue;
 
-public class CoffeeShopQueue {
-private Queue> orders;
+public class Student {
+private String name;
+private int grade;
 
-public CoffeeShopQueue() {
-orders = new LinkedList<>();
+public Student(String name, int grade) {
+this.name = name;
+this.grade = grade;
 }
 
-public void addOrder(String customerName, String drinkType, String size) {
-Order order = new Order(customerName, drinkType, size);
-orders.add(order);
+public String getName() {
+return name;
 }
 
-public Order removeOrder() {
-return orders.poll();
+public int getGrade() {
+return grade;
 }
 
-public Order peekOrder() {
-return orders.peek();
+public static LinkedList> filterStudents(LinkedList> students, int threshold) {
+LinkedList> filteredStudents = new LinkedList<>();
+for (Student student : students) {
+if (student.getGrade() > threshold) {
+filteredStudents.add(student);
+}
+}
+return filteredStudents;
 }
 
-public boolean isEmpty() {
-return orders.isEmpty();
+public static void printStudentsAboveThreshold(LinkedList> students, int threshold) {
+for (Student student : students) {
+if (student.getGrade() > threshold) {
+System.out.println(student.getName() + " - Grade: " + student.getGrade());
+}
+}
 }
 
 public static void main(String[] args) {
-CoffeeShopQueue coffeeShop = new CoffeeShopQueue();
+LinkedList> studentList = new LinkedList<>();
+studentList.add(new Student("Aman", 85));
+studentList.add(new Student("Gurkamal", 95));
+studentList.add(new Student("Mannu", 70));
+studentList.add(new Student("Anmol", 90));
 
-coffeeShop.addOrder("John", "Cappuccino", "Medium");
-coffeeShop.addOrder("Alice", "Latte", "Large");
-coffeeShop.addOrder("Mike", "Espresso", "Small");
-
-System.out.println("Next order: " + coffeeShop.peekOrder());
-
-Order removedOrder = coffeeShop.removeOrder();
-System.out.println("Removed order: " + removedOrder);
-
-System.out.println("Is queue empty? " + coffeeShop.isEmpty());
-}
+int threshold = 80;
+LinkedList> filteredStudents = filterStudents(studentList, threshold);
+System.out.println("Students above threshold (" + threshold + "):");
+for (Student student : filteredStudents) {
+System.out.println(student.getName() + " - Grade: " + student.getGrade());
 }
 
-class Order {
-private String customerName;
-private String drinkType;
-private String size;
-
-public Order(String customerName, String drinkType, String size) {
-this.customerName = customerName;
-this.drinkType = drinkType;
-this.size = size;
-}
-
-@Override
-public String toString() {
-return "Customer: " + customerName + ", Drink: " + drinkType + ", Size: " + size;
-}
-}
-```
-Part 4
-```java
-class Song {
-String title;
-String artist;
-int duration;
-
-Song(String title, String artist, int duration) {
-this.title = title;
-this.artist = artist;
-this.duration = duration;
-}
-}
-
-class Node {
-Song song;
-Node next;
-
-Node(Song song) {
-this.song = song;
-this.next = null;
-}
-}
-
-class Playlist {
-Node head;
-Node tail;
-
-Playlist() {
-this.head = null;
-this.tail = null;
-}
-
-void addSongToBeginning(Song song) {
-Node newNode = new Node(song);
-if (head == null) {
-head = newNode;
-tail = newNode;
-} else {
-newNode.next = head;
-head = newNode;
-}
-}
-
-void addSongToEnd(Song song) {
-Node newNode = new Node(song);
-if (head == null) {
-head = newNode;
-tail = newNode;
-} else {
-tail.next = newNode;
-tail = newNode;
-}
-}
-
-void removeSongFromBeginning() {
-if (head == null) {
-System.out.println("Playlist is empty.");
-} else if (head == tail) {
-head = null;
-tail = null;
-} else {
-head = head.next;
-}
-}
-
-void removeSongFromEnd() {
-if (head == null) {
-System.out.println("Playlist is empty.");
-} else if (head == tail) {
-head = null;
-tail = null;
-} else {
-Node curr = head;
-while (curr.next != tail) {
-curr = curr.next;
-}
-tail = curr;
-tail.next = null;
-}
-}
-}
-```
-Part 5
-
-```java
-import java.util.Stack;
-
-class Action {
-private String type;
-private String parameters;
-
-public Action(String type, String parameters) {
-this.type = type;
-this.parameters = parameters;
-}
-
-public String getType() {
-return type;
-}
-
-public String getParameters() {
-return parameters;
-}
-}
-
-class DrawingApplication {
-private Stack> undoStack;
-private Stack> redoStack;
-
-public DrawingApplication() {
-undoStack = new Stack<>();
-redoStack = new Stack<>();
-}
-
-public void addActionToUndoStack(Action action) {
-undoStack.push(action);
-}
-
-public void undo() {
-if (!undoStack.isEmpty()) {
-Action action = undoStack.pop();
-redoStack.push(action);
-System.out.println("Undo action: " + action.getType() + "(" + action.getParameters() + ")");
-} else {
-System.out.println("No action to undo.");
-}
-}
-
-public void redo() {
-if (!redoStack.isEmpty()) {
-Action action = redoStack.pop();
-undoStack.push(action);
-System.out.println("Redo action: " + action.getType() + "(" + action.getParameters() + ")");
-} else {
-System.out.println("No action to redo.");
-}
-}
-
-public void printRecentAction() {
-if (!undoStack.isEmpty()) {
-Action action = undoStack.peek();
-System.out.println("Recent action: " + action.getType() + "(" + action.getParameters() + ")");
-} else {
-System.out.println("No recent action.");
-}
-}
-}
-
-public class Main {
-public static void main(String[] args) {
-DrawingApplication app = new DrawingApplication();
-
-app.addActionToUndoStack(new Action("Draw", "Circle"));
-app.addActionToUndoStack(new Action("Move", "Square"));
-app.addActionToUndoStack(new Action("Resize", "Triangle"));
-
-app.undo();
-app.redo();
-app.undo();
-app.undo();
-app.undo();
-
-app.printRecentAction();
+System.out.println("\nAll students above threshold (" + threshold + "):");
+printStudentsAboveThreshold(studentList, threshold);
 }
 }
 ```
