@@ -1,0 +1,95 @@
+Part 1
+  ```java
+public class Book {
+private String title;
+private String author;
+private int publicationYear;
+private Book next;
+
+public Book(String title, String author, int publicationYear) {
+this.title = title;
+this.author = author;
+this.publicationYear = publicationYear;
+}
+
+public void setNext(Book next) {
+this.next = next;
+}
+
+public Book getNext() {
+return next;
+}
+
+public String toString() {
+return title + " by " + author + " (" + publicationYear + ")";
+}
+}
+
+public class BookLinkedList {
+private Book head;
+private Book tail;
+
+public void addFirst(Book book) {
+if (head == null) {
+head = book;
+tail = book;
+} else {
+book.setNext(head);
+head = book;
+}
+}
+
+public void addLast(Book book) {
+if (head == null) {
+head = book;
+tail = book;
+} else {
+tail.setNext(book);
+tail = book;
+}
+}
+
+public void removeFirst() {
+if (head == null) {
+return;
+}
+
+if (head == tail) {
+head = null;
+tail = null;
+} else {
+head = head.getNext();
+}
+}
+
+public void removeLast() {
+if (head == null) {
+return;
+}
+
+if (head == tail) {
+head = null;
+tail = null;
+} else {
+Book current = head;
+while (current.getNext() != tail) {
+current = current.getNext();
+}
+current.setNext(null);
+tail = current;
+}
+}
+
+public void printReverse() {
+printReverseRecursive(head);
+}
+
+private void printReverseRecursive(Book current) {
+if (current == null) {
+return;
+}
+printReverseRecursive(current.getNext());
+System.out.println(current.toString());
+}
+}
+```
