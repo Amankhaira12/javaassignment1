@@ -93,3 +93,298 @@ System.out.println(current.toString());
 }
 }
 ```
+Part 2
+```java
+import java.util.Stack;
+
+class WebPage {
+private String url;
+private long timestamp;
+
+public WebPage(String url, long timestamp) {
+this.url = url;
+this.timestamp = timestamp;
+}
+
+public String getUrl() {
+return url;
+}
+
+public long getTimestamp() {
+return timestamp;
+}
+}
+
+public class WebPageStack {
+private Stack<WebPage> stack;
+
+public WebPageStack() {
+stack = new Stack<>();
+}
+
+public void addWebPage(WebPage webPage) {
+stack.push(webPage);
+}
+
+public WebPage removeWebPage() {
+return stack.pop();
+}
+
+public WebPage peekWebPage() {
+return stack.peek();
+}
+
+public boolean isEmpty() {
+return stack.isEmpty();
+}
+
+public static void main(String[] args) {
+WebPageStack webPageStack = new WebPageStack();
+
+// Add web pages
+webPageStack.addWebPage(new WebPage("https://www.google.com", System.currentTimeMillis()));
+webPageStack.addWebPage(new WebPage("https://www.facebook.com", System.currentTimeMillis()));
+webPageStack.addWebPage(new WebPage("https://www.amazon.com", System.currentTimeMillis()));
+
+// Remove the most recent web page
+WebPage removedWebPage = webPageStack.removeWebPage();
+System.out.println("Removed Web Page: " + removedWebPage.getUrl());
+
+// Print the most recent web page without removing it
+WebPage recentWebPage = webPageStack.peekWebPage();
+System.out.println("Recent Web Page: " + recentWebPage.getUrl());
+
+// Check if the stack is empty
+System.out.println("Is stack empty? " + webPageStack.isEmpty());
+}
+}
+```
+Part 3
+```java
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class CoffeeShopQueue {
+private Queue> orders;
+
+public CoffeeShopQueue() {
+orders = new LinkedList<>();
+}
+
+public void addOrder(String customerName, String drinkType, String size) {
+Order order = new Order(customerName, drinkType, size);
+orders.add(order);
+}
+
+public Order removeOrder() {
+return orders.poll();
+}
+
+public Order peekOrder() {
+return orders.peek();
+}
+
+public boolean isEmpty() {
+return orders.isEmpty();
+}
+
+public static void main(String[] args) {
+CoffeeShopQueue coffeeShop = new CoffeeShopQueue();
+
+coffeeShop.addOrder("John", "Cappuccino", "Medium");
+coffeeShop.addOrder("Alice", "Latte", "Large");
+coffeeShop.addOrder("Mike", "Espresso", "Small");
+
+System.out.println("Next order: " + coffeeShop.peekOrder());
+
+Order removedOrder = coffeeShop.removeOrder();
+System.out.println("Removed order: " + removedOrder);
+
+System.out.println("Is queue empty? " + coffeeShop.isEmpty());
+}
+}
+
+class Order {
+private String customerName;
+private String drinkType;
+private String size;
+
+public Order(String customerName, String drinkType, String size) {
+this.customerName = customerName;
+this.drinkType = drinkType;
+this.size = size;
+}
+
+@Override
+public String toString() {
+return "Customer: " + customerName + ", Drink: " + drinkType + ", Size: " + size;
+}
+}
+```
+Part 4
+```java
+class Song {
+String title;
+String artist;
+int duration;
+
+Song(String title, String artist, int duration) {
+this.title = title;
+this.artist = artist;
+this.duration = duration;
+}
+}
+
+class Node {
+Song song;
+Node next;
+
+Node(Song song) {
+this.song = song;
+this.next = null;
+}
+}
+
+class Playlist {
+Node head;
+Node tail;
+
+Playlist() {
+this.head = null;
+this.tail = null;
+}
+
+void addSongToBeginning(Song song) {
+Node newNode = new Node(song);
+if (head == null) {
+head = newNode;
+tail = newNode;
+} else {
+newNode.next = head;
+head = newNode;
+}
+}
+
+void addSongToEnd(Song song) {
+Node newNode = new Node(song);
+if (head == null) {
+head = newNode;
+tail = newNode;
+} else {
+tail.next = newNode;
+tail = newNode;
+}
+}
+
+void removeSongFromBeginning() {
+if (head == null) {
+System.out.println("Playlist is empty.");
+} else if (head == tail) {
+head = null;
+tail = null;
+} else {
+head = head.next;
+}
+}
+
+void removeSongFromEnd() {
+if (head == null) {
+System.out.println("Playlist is empty.");
+} else if (head == tail) {
+head = null;
+tail = null;
+} else {
+Node curr = head;
+while (curr.next != tail) {
+curr = curr.next;
+}
+tail = curr;
+tail.next = null;
+}
+}
+}
+```
+Part 5
+
+```java
+import java.util.Stack;
+
+class Action {
+private String type;
+private String parameters;
+
+public Action(String type, String parameters) {
+this.type = type;
+this.parameters = parameters;
+}
+
+public String getType() {
+return type;
+}
+
+public String getParameters() {
+return parameters;
+}
+}
+
+class DrawingApplication {
+private Stack> undoStack;
+private Stack> redoStack;
+
+public DrawingApplication() {
+undoStack = new Stack<>();
+redoStack = new Stack<>();
+}
+
+public void addActionToUndoStack(Action action) {
+undoStack.push(action);
+}
+
+public void undo() {
+if (!undoStack.isEmpty()) {
+Action action = undoStack.pop();
+redoStack.push(action);
+System.out.println("Undo action: " + action.getType() + "(" + action.getParameters() + ")");
+} else {
+System.out.println("No action to undo.");
+}
+}
+
+public void redo() {
+if (!redoStack.isEmpty()) {
+Action action = redoStack.pop();
+undoStack.push(action);
+System.out.println("Redo action: " + action.getType() + "(" + action.getParameters() + ")");
+} else {
+System.out.println("No action to redo.");
+}
+}
+
+public void printRecentAction() {
+if (!undoStack.isEmpty()) {
+Action action = undoStack.peek();
+System.out.println("Recent action: " + action.getType() + "(" + action.getParameters() + ")");
+} else {
+System.out.println("No recent action.");
+}
+}
+}
+
+public class Main {
+public static void main(String[] args) {
+DrawingApplication app = new DrawingApplication();
+
+app.addActionToUndoStack(new Action("Draw", "Circle"));
+app.addActionToUndoStack(new Action("Move", "Square"));
+app.addActionToUndoStack(new Action("Resize", "Triangle"));
+
+app.undo();
+app.redo();
+app.undo();
+app.undo();
+app.undo();
+
+app.printRecentAction();
+}
+}
+```
